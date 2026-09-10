@@ -1,0 +1,75 @@
+fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'registerTire', pass, className: cls, carNumber: car, barcode, session })
+      })
+      .then(res => res.json())
+      .then(res => {
+        banner.className = 'result-banner ' + (res.success ? 'OK' : 'MISMATCH');
+        banner.innerText = res.message;
+        if (res.success) {
+          document.getElementById('regBarcodeInput').value = '';
+          fetchCloudDB(); // Обновляем локальную базу
+        }
+      });
+    }
+
+    // Сетка пилотов
+    function renderCarsGrid() {
+      const cls = document.getElementById('listClassSelect').value;
+      const grid = document.getElementById('carsGrid');
+      grid.innerHTML = '';
+
+      if (!localDB.classes[cls]) return;
+
+      const cars = Object.keys(localDB.classes[cls]).sort((a, b) => Number(a) - Number(b));
+      cars.forEach(carNum => {
+        const tires = localDB.classes[cls][carNum];
+        const total = tires.length;
+        const scanned = tires.filter(t => t.status === 'OK').length;
+        
+        let statusClass = 'status-yellow';
+        if (scanned > 0 && scanned === total) statusClass = 'status-green';
+
+        const div = document.createElement('div');
+        div.className = car-badge ${statusClass};
+        div.innerHTML = #${carNum}<span class="badge-sub">${scanned}/${total}</span>;
+        div.onclick = () => {
+          document.getElementById('classSelect').value = cls;
+          document.getElementById('carNumber').value = carNum;
+          showTab('scan');
+        };
+        grid.appendChild(div);
+      });
+    }
+
+    function showTab(tab) {
+      document.getElementById('tabScan').style.display = tab === 'scan' ? 'block' : 'none';
+      document.getElementById('tabList').style.display = tab === 'list' ? 'block' : 'none';
+      document.getElementById('tabReg').style.display = tab === 'reg' ? 'block' : 'none';
+
+      document.getElementById('tabScanBtn').className = tab === 'scan' ? 'active' : '';
+      document.getElementById('tabListBtn').className = tab === 'list' ? 'active' : '';
+      document.getElementById('tabRegBtn').className = tab === 'reg' ? 'active' : '';
+
+      if (tab === 'list') renderCarsGrid();
+    }
+
+    // Звуковой бип через Web Audio API
+    function triggerBeep() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime); // 880Hz (нота Ля)
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+      } catch(e) {}
+    }
+  </script>
+</body>
+</html>
