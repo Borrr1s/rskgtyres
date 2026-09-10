@@ -181,7 +181,8 @@
       
       // Авто-фоновый запрос свежей базы
       fetchCloudDB();
-// Enter для лазерного сканера CipherLab RS30
+
+      // Enter для лазерного сканера CipherLab RS30
       document.getElementById('barcodeInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') {
           e.preventDefault();
@@ -212,7 +213,7 @@
 
     function updateQueueUI() {
       const qEl = document.getElementById('queueStatus');
-      qEl.innerText = Очередь: ${syncQueue.length} ⟳;
+      qEl.innerText = `Очередь: ${syncQueue.length} ⟳`;
       qEl.style.color = syncQueue.length > 0 ? '#ff9800' : '#888';
     }
 
@@ -358,7 +359,7 @@
 
       if (matched) {
         banner.className = 'result-banner OK';
-        banner.innerHTML = ✅ ОК<br><span style="font-size:16px;">Шина ${cleanBarcode}</span>;
+        banner.innerHTML = `✅ ОК<br><span style="font-size:16px;">Шина ${cleanBarcode}</span>`;
         if (navigator.vibrate) navigator.vibrate(100);
 
         // Добавляем в очередь синхронизации
@@ -369,7 +370,7 @@
         syncWithCloud();
       } else {
         banner.className = 'result-banner MISMATCH';
-        banner.innerHTML = ❌ НЕСООТВЕТСТВИЕ!<br><span style="font-size:15px;">Шина ${cleanBarcode} отсутствует в заявке машины #${car}</span>;
+        banner.innerHTML = `❌ НЕСООТВЕТСТВИЕ!<br><span style="font-size:15px;">Шина ${cleanBarcode} отсутствует в заявке машины #${car}</span>`;
         if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
       }
 
@@ -419,7 +420,8 @@
       banner.style.display = 'block';
       banner.className = 'result-banner';
       banner.innerText = 'Запись в таблицу...';
-fetch(SCRIPT_URL, {
+
+      fetch(SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({ action: 'registerTire', pass, className: cls, carNumber: car, barcode, session })
@@ -453,8 +455,8 @@ fetch(SCRIPT_URL, {
         if (scanned > 0 && scanned === total) statusClass = 'status-green';
 
         const div = document.createElement('div');
-        div.className = car-badge ${statusClass};
-        div.innerHTML = #${carNum}<span class="badge-sub">${scanned}/${total}</span>;
+        div.className = `car-badge ${statusClass}`;
+        div.innerHTML = `#${carNum}<span class="badge-sub">${scanned}/${total}</span>`;
         div.onclick = () => {
           document.getElementById('classSelect').value = cls;
           document.getElementById('carNumber').value = carNum;
@@ -494,3 +496,4 @@ fetch(SCRIPT_URL, {
   </script>
 </body>
 </html>
+
