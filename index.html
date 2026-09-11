@@ -31,25 +31,9 @@
       border-radius: 10px 10px 0 0;
       margin-bottom: 8px;
     }
-    .brand-logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .brand-title {
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: 1.2px;
-      font-style: italic;
-      color: #fff;
-    }
-    .brand-sub {
-      font-size: 11px;
-      color: var(--yoko-red);
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+    .brand-logo-wrap { display: flex; align-items: center; gap: 8px; }
+    .brand-title { font-size: 19px; font-weight: 900; letter-spacing: 1.2px; font-style: italic; color: #fff; }
+    .brand-sub { font-size: 11px; color: var(--yoko-red); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
 
     /* Статус-бар */
     .status-bar { 
@@ -64,18 +48,11 @@
       font-weight: 700; 
       border: 1px solid var(--yoko-gray-border); 
     }
-    .badge-sync { 
-      padding: 4px 8px; 
-      border-radius: 4px; 
-      font-size: 11px; 
-      cursor: pointer; 
-      background: #222;
-      color: #aaa;
-    }
+    .badge-sync { padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; background: #222; color: #aaa; }
     .online { color: #00e676; }
     .offline { color: #ff9100; }
 
-    /* Навигация в стиле спорт-табло */
+    /* Навигация главного меню */
     .nav { display: flex; gap: 4px; margin-bottom: 12px; background: #181818; padding: 4px; border-radius: 8px; }
     .nav button { 
       flex: 1; 
@@ -86,16 +63,12 @@
       border-radius: 6px; 
       font-weight: 800; 
       font-size: 13px; 
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      text-transform: uppercase; 
+      letter-spacing: 0.5px; 
       cursor: pointer; 
-      transition: 0.2s;
+      transition: 0.2s; 
     }
-    .nav button.active { 
-      background: var(--yoko-red); 
-      color: #fff; 
-      box-shadow: 0 2px 8px rgba(230, 0, 18, 0.4);
-    }
+    .nav button.active { background: var(--yoko-red); color: #fff; box-shadow: 0 2px 8px rgba(230, 0, 18, 0.4); }
 
     .card { 
       background: var(--yoko-dark-card); 
@@ -103,17 +76,9 @@
       border-radius: 10px; 
       margin-bottom: 12px; 
       border: 1px solid var(--yoko-gray-border); 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5); 
     }
-    label { 
-      font-size: 11px; 
-      color: var(--yoko-text-muted); 
-      margin-top: 10px; 
-      display: block; 
-      text-transform: uppercase; 
-      font-weight: 700;
-      letter-spacing: 0.6px; 
-    }
+    label { font-size: 11px; color: var(--yoko-text-muted); margin-top: 10px; display: block; text-transform: uppercase; font-weight: 700; letter-spacing: 0.6px; }
     input, select { 
       width: 100%; 
       padding: 13px; 
@@ -123,13 +88,12 @@
       color: #fff; 
       border-radius: 6px; 
       font-size: 16px; 
-      font-weight: 600;
+      font-weight: 600; 
       outline: none; 
-      transition: border-color 0.2s;
     }
     input:focus, select:focus { border-color: var(--yoko-red); }
 
-    /* КНОПКА КАМЕРЫ YOKOHAMA RED */
+    /* КНОПКА КАМЕРЫ YOKOHAMA */
     .btn-massive {
       width: 100%;
       min-height: 64px;
@@ -152,12 +116,7 @@
       cursor: pointer;
       touch-action: manipulation;
     }
-    .btn-massive.active { 
-      background: #2b2b2b; 
-      color: #ff5252; 
-      border: 1px solid #ff5252;
-      box-shadow: none; 
-    }
+    .btn-massive.active { background: #2b2b2b; color: #ff5252; border: 1px solid #ff5252; box-shadow: none; }
     .btn-massive:active { transform: scale(0.98); }
 
     .btn-action { 
@@ -169,45 +128,19 @@
       border-radius: 6px; 
       font-size: 14px; 
       font-weight: 800; 
-      text-transform: uppercase;
+      text-transform: uppercase; 
       cursor: pointer; 
       margin-top: 8px; 
     }
-    .btn-action:hover { background: #303030; }
 
     /* Окно видоискателя */
-    .scanner-box { 
-      display: none; 
-      margin: 10px 0; 
-      border-radius: 8px; 
-      overflow: hidden; 
-      border: 2px solid var(--yoko-red); 
-      background: #000; 
-    }
+    .scanner-box { display: none; margin: 10px 0; border-radius: 8px; overflow: hidden; border: 2px solid var(--yoko-red); background: #000; }
     .camera-viewport { width: 100%; min-height: 250px; }
 
-    /* Баннеры статуса проверки */
-    .result-banner { 
-      margin-top: 12px; 
-      padding: 18px; 
-      border-radius: 8px; 
-      text-align: center; 
-      font-size: 21px; 
-      font-weight: 900; 
-      font-style: italic;
-      display: none; 
-      line-height: 1.3; 
-    }
-    .result-banner.OK { 
-      background: #0a2f13; 
-      color: #69f0ae; 
-      border: 2px solid #00e676; 
-    }
-    .result-banner.MISMATCH { 
-      background: #38080c; 
-      color: #ff8a80; 
-      border: 2px solid var(--yoko-red); 
-    }
+    /* Баннеры проверки */
+    .result-banner { margin-top: 12px; padding: 18px; border-radius: 8px; text-align: center; font-size: 21px; font-weight: 900; font-style: italic; display: none; line-height: 1.3; }
+    .result-banner.OK { background: #0a2f13; color: #69f0ae; border: 2px solid #00e676; }
+    .result-banner.MISMATCH { background: #38080c; color: #ff8a80; border: 2px solid var(--yoko-red); }
 
     /* Сетка машин */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
@@ -217,22 +150,41 @@
       border-radius: 6px; 
       font-weight: 900; 
       font-size: 19px; 
-      font-style: italic;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.1);
+      font-style: italic; 
+      cursor: pointer; 
+      border: 1px solid rgba(255,255,255,0.1); 
+      transition: transform 0.1s;
     }
+    .car-badge:active { transform: scale(0.95); }
     .status-green { background: #135e26; color: #fff; border-color: #00e676; }
     .status-red { background: #7a0c14; color: #fff; border-color: var(--yoko-red); }
     .status-yellow { background: #d48806; color: #000; border-color: #ffd666; }
     .badge-sub { font-size: 11px; display: block; font-weight: normal; font-style: normal; margin-top: 3px; }
+
+    /* Подвкладки режима Внесения */
+    .sub-nav { display: flex; gap: 4px; margin-bottom: 12px; }
+    .sub-nav button { flex: 1; padding: 8px 4px; background: #222; color: #aaa; border: 1px solid #333; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+    .sub-nav button.active { background: #333; color: #fff; border-color: var(--yoko-red); }
+
+    /* Модальное окно детализации машины */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: flex-end; }
+    .modal-sheet { background: #181818; width: 100%; max-width: 500px; max-height: 85vh; border-radius: 16px 16px 0 0; padding: 18px; border-top: 2px solid var(--yoko-red); overflow-y: auto; box-shadow: 0 -10px 25px rgba(0,0,0,0.7); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .modal-title { font-size: 20px; font-weight: 900; font-style: italic; color: #fff; }
+    .modal-close { background: #2a2a2a; border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-weight: bold; cursor: pointer; }
+    .tire-item { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 13px; border-left: 3px solid #444; }
+    .tire-item.ok { border-left-color: #00e676; }
+    .tire-item.pending { border-left-color: #ffd666; }
+    .badge-pill { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 800; text-transform: uppercase; }
+    .badge-ok { background: #135e26; color: #69f0ae; }
+    .badge-pending { background: #423508; color: #ffd666; }
   </style>
 </head>
 <body>
 
-  <!-- Брендированная плашка Yokohama -->
+  <!-- Брендированная шапка Yokohama -->
   <div class="brand-header">
     <div class="brand-logo-wrap">
-      <!-- Фирменный знак Yokohama (стилизованные турбинные лопасти) -->
       <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
         <circle cx="50" cy="50" r="46" stroke="#E60012" stroke-width="8"/>
         <path d="M50 15 C45 35 35 45 15 50 C35 55 45 65 50 85 C55 65 65 55 85 50 C65 45 55 35 50 15 Z" fill="#E60012"/>
@@ -250,16 +202,17 @@
     <div id="queueStatus" class="badge-sync" onclick="syncWithCloud()">Очередь: 0 ⟳</div>
   </div>
 
+  <!-- Главное меню -->
   <div class="nav">
     <button id="tabScanBtn" class="active" onclick="showTab('scan')">Проверка</button>
     <button id="tabListBtn" onclick="showTab('list')">Сетка</button>
     <button id="tabRegBtn" onclick="showTab('reg')">Внесение</button>
   </div>
 
-  <!-- ВКЛАДКА 1: ПРОВЕРКА (ИНСПЕКЦИЯ) -->
+  <!-- 1. ПРОВЕРКА -->
   <div id="tabScan">
     <div class="card">
-      <label>Класс:</label>
+      <label>Класс соревнований:</label>
       <select id="classSelect" onchange="onClassChange()"></select>
 
       <div id="sessionWrapper" style="display: none;">
@@ -276,7 +229,6 @@
       <input type="text" id="carNumber" list="carsList" placeholder="Выбор из списка или ввод" inputmode="numeric">
       <datalist id="carsList"></datalist>
 
-      <!-- Кнопка камеры проверки -->
       <button id="toggleScanCamBtn" class="btn-massive" onclick="toggleCameraMode('scan')">
         📷 СКАНЕР КАМЕРОЙ
       </button>
@@ -293,59 +245,140 @@
     <div id="resultBanner" class="result-banner"></div>
   </div>
 
-  <!-- ВКЛАДКА 2: СЕТКА МАШИН -->
+  <!-- 2. СЕТКА МАШИН -->
   <div id="tabList" style="display: none;">
     <div class="card">
-      <label>Класс соревнований:</label>
+      <label>Класс для мониторинга:</label>
       <select id="listClassSelect" onchange="renderCarsGrid()"></select>
     </div>
     <div class="grid" id="carsGrid"></div>
   </div>
 
-  <!-- ВКЛАДКА 3: ВНЕСЕНИЕ ШИН (РЕГИСТРАЦИЯ) -->
+  <!-- 3. ВНЕСЕНИЕ / АДМИНИСТРИРОВАНИЕ ЭТАПА -->
   <div id="tabReg" style="display: none;">
     <div class="card">
-      <!-- Защита паролем: маскированный ввод без автосохранения -->
-      <div id="passWrapper">
-        <label>Код доступа технического комиссара:</label>
+      <div id="passBlock">
+        <label>Код технического комиссара:</label>
         <input type="password" id="regPass" placeholder="••••" autocomplete="new-password" inputmode="numeric">
       </div>
 
-      <label>Класс:</label>
-      <select id="regClassSelect" onchange="onRegClassChange()"></select>
+      <!-- Подвкладки управления -->
+      <div class="sub-nav" style="margin-top: 12px;">
+        <button id="subTabTireBtn" class="active" onclick="showSubTab('tire')">Шина в слот</button>
+        <button id="subTabAddCarBtn" onclick="showSubTab('addCar')">+ Участник</button>
+        <button id="subTabDelCarBtn" onclick="showSubTab('delCar')">- Участник</button>
+        <button id="subTabExtraBtn" onclick="showSubTab('extra')">+ Доп. шина</button>
+      </div>
 
-      <div id="regSessionWrapper" style="display: none;">
-        <label>Сессия (GT4):</label>
-        <select id="regSessionSelect">
-          <option value="S0">S0 (Свободная тренировка)</option>
-          <option value="S1">S1 (Квалификация)</option>
-          <option value="S2">S2 (Гонка 1)</option>
-          <option value="S3">S3 (Гонка 2)</option>
+      <!-- А. Внесение шины в слот -->
+      <div id="subBlockTire">
+        <label>Класс:</label>
+        <select id="regClassSelect" onchange="onRegClassChange()"></select>
+
+        <div id="regSessionWrapper" style="display: none;">
+          <label>Сессия (GT4):</label>
+          <select id="regSessionSelect">
+            <option value="S0">S0 (Свободная тренировка)</option>
+            <option value="S1">S1 (Квалификация)</option>
+            <option value="S2">S2 (Гонка 1)</option>
+            <option value="S3">S3 (Гонка 2)</option>
+          </select>
+        </div>
+
+        <label>Номер машины:</label>
+        <input type="text" id="regCarNumber" list="regCarsList" placeholder="Выбор номера" inputmode="numeric">
+        <datalist id="regCarsList"></datalist>
+
+        <button id="toggleRegCamBtn" class="btn-massive" onclick="toggleCameraMode('reg')">
+          📷 СКАНИРОВАТЬ В СЛОТ
+        </button>
+
+        <div id="scannerBoxReg" class="scanner-box">
+          <div id="cameraFeedReg" class="camera-viewport"></div>
+        </div>
+
+        <label>Штрихкод колеса:</label>
+        <input type="text" id="regBarcodeInput" placeholder="Сканируй ТСД или введи">
+        <button class="btn-action" style="background:var(--yoko-red); border-color:var(--yoko-red); color:#fff;" onclick="submitTireRegistration()">
+          Внести в заявку
+        </button>
+      </div>
+
+      <!-- Б. Добавление участника -->
+      <div id="subBlockAddCar" style="display: none;">
+        <label>Класс участника:</label>
+        <select id="addCarClassSelect"></select>
+
+        <label>Стартовый номер машины:</label>
+        <input type="number" id="addCarNumber" placeholder="Например, 77" inputmode="numeric">
+
+        <label>Квота шин на этап:</label>
+        <select id="addCarTireQuota">
+          <option value="6">6 новых шин (Туринг-Лайт / Супер-Продакшн)</option>
+          <option value="8">8 новых шин</option>
+          <option value="10">10 шин</option>
+          <option value="12">12 шин (Туринг: 8 новых + 4 б/у)</option>
+          <option value="16">16 шин (GT4 базовый)</option>
+          <option value="24">24 шины (GT4 расширенный)</option>
         </select>
+
+        <button class="btn-action" style="background:var(--yoko-red); border-color:var(--yoko-red); color:#fff; margin-top:14px;" onclick="submitAddCar()">
+          Добавить участника в этап
+        </button>
       </div>
 
-      <label>Стартовый номер машины:</label>
-      <input type="text" id="regCarNumber" list="regCarsList" placeholder="Выбор из списка или ввод" inputmode="numeric">
-      <datalist id="regCarsList"></datalist>
+      <!-- В. Удаление участника -->
+      <div id="subBlockDelCar" style="display: none;">
+        <label>Класс:</label>
+        <select id="delCarClassSelect" onchange="updateDatalist(this.value, 'delCarsList')"></select>
 
-      <!-- Сканер камеры на вкладке внесения -->
-      <button id="toggleRegCamBtn" class="btn-massive" onclick="toggleCameraMode('reg')">
-        📷 СКАНИРОВАТЬ В СЛОТ
-      </button>
+        <label>Номер машины для удаления:</label>
+        <input type="text" id="delCarNumber" list="delCarsList" placeholder="Выбери номер машины" inputmode="numeric">
+        <datalist id="delCarsList"></datalist>
 
-      <div id="scannerBoxReg" class="scanner-box">
-        <div id="cameraFeedReg" class="camera-viewport"></div>
+        <button class="btn-action" style="background:#7a0c14; border-color:var(--yoko-red); color:#fff; margin-top:14px;" onclick="submitDeleteCar()">
+          Удалить участника из этапа
+        </button>
       </div>
 
-      <label>Штрихкод новой шины:</label>
-      <input type="text" id="regBarcodeInput" placeholder="Сканируй ТСД или камерой">
+      <!-- Г. Добавление дополнительного слота колеса -->
+      <div id="subBlockExtra" style="display: none;">
+        <label>Класс:</label>
+        <select id="extraClassSelect" onchange="updateDatalist(this.value, 'extraCarsList')"></select>
 
-      <button class="btn-action" style="background:var(--yoko-red); border-color:var(--yoko-red); color:#fff;" onclick="submitTireRegistration()">
-        Внести шину в заявку
-      </button>
+        <label>Номер машины:</label>
+        <input type="text" id="extraCarNumber" list="extraCarsList" placeholder="Номер машины" inputmode="numeric">
+        <datalist id="extraCarsList"></datalist>
+
+        <label>Штрихкод доп. колеса (необязательно):</label>
+        <input type="text" id="extraBarcodeInput" placeholder="Можно привязать позже">
+
+        <button class="btn-action" style="background:var(--yoko-red); border-color:var(--yoko-red); color:#fff; margin-top:14px;" onclick="submitAddExtraTire()">
+          Добавить доп. колесо пилоту
+        </button>
+      </div>
     </div>
 
     <div id="regResultBanner" class="result-banner"></div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: СПИСОК ШИН МАШИНЫ ИЗ СЕТКИ -->
+  <div id="carDetailModal" class="modal-overlay" onclick="closeCarModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div>
+          <div id="modalCarTitle" class="modal-title">Машина #--</div>
+          <div id="modalCarSub" style="font-size:12px; color:#aaa;">Класс: --</div>
+        </div>
+        <button class="modal-close" onclick="closeCarModal()">✕</button>
+      </div>
+
+      <div id="modalTireList" style="margin-top:10px;"></div>
+
+      <button id="modalInspectBtn" class="btn-massive" style="margin-top:14px;">
+        🔍 ПРОВЕРИТЬ ЭТУ МАШИНУ
+      </button>
+    </div>
   </div>
 
   <script>
@@ -354,7 +387,7 @@
     let localDB = JSON.parse(localStorage.getItem('rskg_db') || '{"classes":{}}');
     let syncQueue = JSON.parse(localStorage.getItem('rskg_queue') || '[]');
     let html5QrCode = null;
-    let activeCameraMode = null; // 'scan' | 'reg' | null
+    let activeCameraMode = null;
     let scanCooldown = false;
     let audioCtx = null;
 
@@ -364,18 +397,19 @@
       populateClassSelectors();
       fetchCloudDB();
 
-      // Обработка клавиши Enter для встроенного сканера CipherLab
-      document.getElementById('barcodeInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          processManualCheck();
-        }
+      // Авто-сохранение пароля в сессии, чтобы не вбивать каждый раз
+      const savedPass = sessionStorage.getItem('rskg_pass');
+      if (savedPass) document.getElementById('regPass').value = savedPass;
+      document.getElementById('regPass').addEventListener('change', (e) => {
+        sessionStorage.setItem('rskg_pass', e.target.value);
       });
-      document.getElementById('regBarcodeInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          submitTireRegistration();
-        }
+
+      // Enter для сканера CipherLab
+      document.getElementById('barcodeInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); processManualCheck(); }
+      });
+      document.getElementById('regBarcodeInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); submitTireRegistration(); }
       });
 
       window.addEventListener('online', () => { updateNetworkStatus(); syncWithCloud(); });
@@ -385,11 +419,9 @@
     function updateNetworkStatus() {
       const netEl = document.getElementById('netStatus');
       if (navigator.onLine) {
-        netEl.className = 'online';
-        netEl.innerText = '● СЕТЬ ОНЛАЙН';
+        netEl.className = 'online'; netEl.innerText = '● СЕТЬ ОНЛАЙН';
       } else {
-        netEl.className = 'offline';
-        netEl.innerText = '○ РЕЖИМ ОФЛАЙН';
+        netEl.className = 'offline'; netEl.innerText = '○ РЕЖИМ ОФЛАЙН';
       }
     }
 
@@ -410,15 +442,17 @@
             renderCarsGrid();
           }
         })
-        .catch(() => console.log("Офлайн режим: используется кэш"));
+        .catch(() => console.log("Работа в автономном режиме кэша"));
     }
 
     function populateClassSelectors() {
       const classes = Object.keys(localDB.classes);
       if (classes.length === 0) return;
 
-      ['classSelect', 'listClassSelect', 'regClassSelect'].forEach(id => {
+      const ids = ['classSelect', 'listClassSelect', 'regClassSelect', 'addCarClassSelect', 'delCarClassSelect', 'extraClassSelect'];
+      ids.forEach(id => {
         const el = document.getElementById(id);
+        if (!el) return;
         const cur = el.value;
         el.innerHTML = '';
         classes.forEach(c => el.add(new Option(c, c)));
@@ -427,6 +461,8 @@
 
       onClassChange();
       onRegClassChange();
+      updateDatalist(document.getElementById('delCarClassSelect').value, 'delCarsList');
+      updateDatalist(document.getElementById('extraClassSelect').value, 'extraCarsList');
     }
 
     function onClassChange() {
@@ -443,9 +479,10 @@
 
     function updateDatalist(cls, listId) {
       const dl = document.getElementById(listId);
+      if (!dl) return;
       dl.innerHTML = '';
       if (!localDB.classes[cls]) return;
-      
+
       const numbers = Object.keys(localDB.classes[cls]).sort((a, b) => Number(a) - Number(b));
       numbers.forEach(num => {
         const opt = document.createElement('option');
@@ -454,7 +491,7 @@
       });
     }
 
-    // УНИВЕРСАЛЬНЫЙ ПОТОКОВЫЙ СКАНЕР ДЛЯ ОБЕИХ ВКЛАДОК
+    // ПОТОКОВЫЙ СКАНЕР КАМЕРЫ
     function toggleCameraMode(mode) {
       const isScan = (mode === 'scan');
       const btn = document.getElementById(isScan ? 'toggleScanCamBtn' : 'toggleRegCamBtn');
@@ -462,7 +499,6 @@
       const containerId = isScan ? 'cameraFeedScan' : 'cameraFeedReg';
 
       if (activeCameraMode === mode) {
-        // Выключение камеры
         if (html5QrCode) {
           html5QrCode.stop().then(() => {
             box.style.display = 'none';
@@ -472,7 +508,6 @@
           });
         }
       } else {
-        // Если была включена камера в другой вкладке, гасим её
         if (html5QrCode && activeCameraMode) {
           html5QrCode.stop().catch(() => {});
           document.getElementById('scannerBoxScan').style.display = 'none';
@@ -517,28 +552,21 @@
 
     function processManualCheck() {
       const val = document.getElementById('barcodeInput').value;
-      if (val) {
-        triggerBeep();
-        verifyTire(val);
-      }
+      if (val) { triggerBeep(); verifyTire(val); }
     }
 
-    // Мгновенная проверка по офлайн-кэшу
     function verifyTire(barcode) {
       const cls = document.getElementById('classSelect').value;
       const car = document.getElementById('carNumber').value;
       const session = document.getElementById('sessionSelect').value;
       const banner = document.getElementById('resultBanner');
 
-      if (!car) {
-        alert('Выберите стартовый номер машины!');
-        return;
-      }
+      if (!car) { alert('Сначала укажите номер машины!'); return; }
 
       banner.style.display = 'block';
       const cleanBarcode = String(barcode).trim();
       const carTires = (localDB.classes[cls] && localDB.classes[cls][car]) ? localDB.classes[cls][car] : [];
-      
+
       let matched = false;
       for (let t of carTires) {
         if (t.barcode === cleanBarcode) {
@@ -564,7 +592,7 @@
         syncWithCloud();
       } else {
         banner.className = 'result-banner MISMATCH';
-        banner.innerHTML = `❌ НЕСООТВЕТСТВИЕ!<br><span style="font-size:14px; font-weight:normal;">Шина ${cleanBarcode} не найдена у машины #${car}</span>`;
+        banner.innerHTML = `❌ НЕСООТВЕТСТВИЕ!<br><span style="font-size:14px; font-weight:normal;">Шина ${cleanBarcode} не числится за машиной #${car}</span>`;
         if (navigator.vibrate) navigator.vibrate([180, 80, 180]);
       }
 
@@ -592,44 +620,7 @@
       .catch(() => console.log('Синхронизация ждёт стабильной связи'));
     }
 
-    // Внесение шины
-    function submitTireRegistration() {
-      const pass = document.getElementById('regPass').value;
-      const cls = document.getElementById('regClassSelect').value;
-      const car = document.getElementById('regCarNumber').value;
-      const barcode = document.getElementById('regBarcodeInput').value;
-      const session = document.getElementById('regSessionSelect').value;
-      const banner = document.getElementById('regResultBanner');
-
-      if (pass !== '1337') {
-        alert('Неверный код доступа!');
-        return;
-      }
-      if (!car || !barcode) {
-        alert('Укажите номер машины и штрихкод!');
-        return;
-      }
-
-      banner.style.display = 'block';
-      banner.className = 'result-banner';
-      banner.innerText = 'Запись в базу...';
-
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'registerTire', pass, className: cls, carNumber: car, barcode, session })
-      })
-      .then(res => res.json())
-      .then(res => {
-        banner.className = 'result-banner ' + (res.success ? 'OK' : 'MISMATCH');
-        banner.innerText = res.message;
-        if (res.success) {
-          document.getElementById('regBarcodeInput').value = '';
-          fetchCloudDB();
-        }
-      });
-    }
-
+    // СЕТКА И ДЕТАЛИЗАЦИЯ ШИН МАШИНЫ
     function renderCarsGrid() {
       const cls = document.getElementById('listClassSelect').value;
       const grid = document.getElementById('carsGrid');
@@ -642,35 +633,178 @@
         const tires = localDB.classes[cls][carNum];
         const total = tires.length;
         const scanned = tires.filter(t => t.status === 'OK').length;
-        
+
         let statusClass = 'status-yellow';
         if (scanned > 0 && scanned === total) statusClass = 'status-green';
 
         const div = document.createElement('div');
         div.className = `car-badge ${statusClass}`;
         div.innerHTML = `#${carNum}<span class="badge-sub">${scanned}/${total}</span>`;
-        div.onclick = () => {
-          document.getElementById('classSelect').value = cls;
-          document.getElementById('carNumber').value = carNum;
-          showTab('scan');
-        };
+        div.onclick = () => openCarModal(cls, carNum);
         grid.appendChild(div);
       });
     }
 
-    function showTab(tab) {
-      // При смене вкладки выключаем активную камеру
-      if (activeCameraMode) {
-        toggleCameraMode(activeCameraMode);
+    function openCarModal(cls, carNum) {
+      const modal = document.getElementById('carDetailModal');
+      const title = document.getElementById('modalCarTitle');
+      const sub = document.getElementById('modalCarSub');
+      const list = document.getElementById('modalTireList');
+      const inspectBtn = document.getElementById('modalInspectBtn');
+
+      title.innerText = `Автомобиль #${carNum}`;
+      sub.innerText = `Класс: ${cls}`;
+      list.innerHTML = '';
+
+      const tires = (localDB.classes[cls] && localDB.classes[cls][carNum]) ? localDB.classes[cls][carNum] : [];
+
+      if (tires.length === 0) {
+        list.innerHTML = '<div style="color:#888; text-align:center; padding:15px;">Нет данных по квоте шин</div>';
+      } else {
+        tires.forEach((t, i) => {
+          const isOk = (t.status === 'OK');
+          const row = document.createElement('div');
+          row.className = `tire-item ${isOk ? 'ok' : 'pending'}`;
+          
+          const sessionPrefix = t.session ? `[${t.session}] ` : '';
+          const barcodeText = t.barcode ? t.barcode : '<span style="color:#888;">не внесена</span>';
+
+          row.innerHTML = `
+            <div>
+              <div style="font-weight:700;">${sessionPrefix}${t.slot || ('Шина ' + (i + 1))}</div>
+              <div style="font-size:11px; color:#aaa;">Штрихкод: <b>${barcodeText}</b></div>
+            </div>
+            <div>
+              <span class="badge-pill ${isOk ? 'badge-ok' : 'badge-pending'}">${isOk ? '✓ ОК' : 'ОЖИДАЕТ'}</span>
+            </div>
+          `;
+          list.appendChild(row);
+        });
       }
 
-      document.getElementById('tabScan').style.display = (tab === 'scan') ? 'block' : 'none';
-      document.getElementById('tabList').style.display = (tab === 'list') ? 'block' : 'none';
-      document.getElementById('tabReg').style.display = (tab === 'reg') ? 'block' : 'none';
+      inspectBtn.onclick = () => {
+        closeCarModal();
+        document.getElementById('classSelect').value = cls;
+        onClassChange();
+        document.getElementById('carNumber').value = carNum;
+        showTab('scan');
+      };
 
-      document.getElementById('tabScanBtn').className = (tab === 'scan') ? 'active' : '';
-      document.getElementById('tabListBtn').className = (tab === 'list') ? 'active' : '';
-      document.getElementById('tabRegBtn').className = (tab === 'reg') ? 'active' : '';
+      modal.style.display = 'flex';
+    }
+
+    function closeCarModal(e) {
+      if (!e || e.target.id === 'carDetailModal' || e.target.className === 'modal-close') {
+        document.getElementById('carDetailModal').style.display = 'none';
+      }
+    }
+
+    // АДМИН-ОПЕРАЦИИ ВНЕСЕНИЯ
+    function getAdminPass() {
+      const pass = document.getElementById('regPass').value;
+      if (!pass) {
+        alert('Введите код технического комиссара (пароль)!');
+        return null;
+      }
+      return pass;
+    }
+
+    function showSubTab(tab) {
+      ['Tire', 'AddCar', 'DelCar', 'Extra'].forEach(t => {
+        const block = document.getElementById('subBlock' + t);
+        const btn = document.getElementById('subTab' + t + 'Btn');
+        if (block) block.style.display = 'none';
+        if (btn) btn.className = '';
+      });
+
+      const activeName = tab.charAt(0).toUpperCase() + tab.slice(1);
+      const activeBlock = document.getElementById('subBlock' + activeName);
+      const activeBtn = document.getElementById('subTab' + activeName + 'Btn');
+      if (activeBlock) activeBlock.style.display = 'block';
+      if (activeBtn) activeBtn.className = 'active';
+    }
+
+    function submitTireRegistration() {
+      const pass = getAdminPass(); if (!pass) return;
+      const cls = document.getElementById('regClassSelect').value;
+      const car = document.getElementById('regCarNumber').value;
+      const barcode = document.getElementById('regBarcodeInput').value;
+      const session = document.getElementById('regSessionSelect').value;
+
+      if (!car || !barcode) { alert('Укажите номер машины и штрихкод!'); return; }
+      sendAdminPost({ action: 'registerTire', pass, className: cls, carNumber: car, barcode, session });
+    }
+
+    function submitAddCar() {
+      const pass = getAdminPass(); if (!pass) return;
+      const cls = document.getElementById('addCarClassSelect').value;
+      const car = document.getElementById('addCarNumber').value;
+      const tireCount = document.getElementById('addCarTireQuota').value;
+
+      if (!car) { alert('Укажите номер новой машины!'); return; }
+      sendAdminPost({ action: 'addCar', pass, className: cls, carNumber: car, tireCount });
+    }
+
+    function submitDeleteCar() {
+      const pass = getAdminPass(); if (!pass) return;
+      const cls = document.getElementById('delCarClassSelect').value;
+      const car = document.getElementById('delCarNumber').value;
+
+      if (!car) { alert('Выберите номер машины для удаления!'); return; }
+      if (!confirm(`Вы точно хотите удалить машину #${car} из класса ${cls}?`)) return;
+
+      sendAdminPost({ action: 'deleteCar', pass, className: cls, carNumber: car });
+    }
+
+    function submitAddExtraTire() {
+      const pass = getAdminPass(); if (!pass) return;
+      const cls = document.getElementById('extraClassSelect').value;
+      const car = document.getElementById('extraCarNumber').value;
+      const barcode = document.getElementById('extraBarcodeInput').value;
+
+      if (!car) { alert('Укажите номер машины!'); return; }
+      sendAdminPost({ action: 'addTireSlot', pass, className: cls, carNumber: car, barcode });
+    }
+
+    function sendAdminPost(payload) {
+      const banner = document.getElementById('regResultBanner');
+      banner.style.display = 'block';
+      banner.className = 'result-banner';
+      banner.innerText = 'Сохранение в облако...';
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(res => {
+        banner.className = 'result-banner ' + (res.success ? 'OK' : 'MISMATCH');
+        banner.innerText = res.message;
+        if (res.success) {
+          document.getElementById('regBarcodeInput').value = '';
+          document.getElementById('addCarNumber').value = '';
+          document.getElementById('delCarNumber').value = '';
+          document.getElementById('extraBarcodeInput').value = '';
+          fetchCloudDB();
+        }
+      })
+      .catch(err => {
+        banner.className = 'result-banner MISMATCH';
+        banner.innerText = 'Ошибка связи: ' + err;
+      });
+    }
+
+    function showTab(tab) {
+      if (activeCameraMode) toggleCameraMode(activeCameraMode);
+
+      document.getElementById('tabScan').style.display = tab === 'scan' ? 'block' : 'none';
+      document.getElementById('tabList').style.display = tab === 'list' ? 'block' : 'none';
+      document.getElementById('tabReg').style.display = tab === 'reg' ? 'block' : 'none';
+
+      document.getElementById('tabScanBtn').className = tab === 'scan' ? 'active' : '';
+      document.getElementById('tabListBtn').className = tab === 'list' ? 'active' : '';
+      document.getElementById('tabRegBtn').className = tab === 'reg' ? 'active' : '';
 
       if (tab === 'list') renderCarsGrid();
     }
