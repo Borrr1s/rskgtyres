@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <title>YOKOHAMA | ТСД Контроль</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- Загрузка библиотеки XLSX: локально из папки ТСД с фолбэком на CDN -->
+  <script src="xlsx.full.min.js"></script>
+  <script>
+    if (typeof XLSX === 'undefined') {
+      var s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+      document.head.appendChild(s);
+    }
+  </script>
   <style>
     * { -webkit-box-sizing: border-box; box-sizing: border-box; font-family: sans-serif; margin: 0; padding: 0; }
     body { background: #0d0d0d; color: #ffffff; padding: 6px; }
@@ -17,7 +26,6 @@
     .brand-title { font-size: 17px; font-weight: bold; font-style: italic; color: #ffffff; }
     .brand-sub { font-size: 10px; color: #E60012; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Статус сети и сканеров */
     .status-bar {
       display: -webkit-box; display: flex;
       justify-content: space-between;
@@ -172,7 +180,6 @@
     <div class="brand-sub" id="stageTitle">Motorsport Tyre Control</div>
   </div>
 
-  <!-- Статус сети и сканеров -->
   <div class="status-bar">
     <div id="netStatus" class="online">● ОНЛАЙН</div>
     <div id="scannerIdDisplay" style="color:#aaa;">Сканер #1</div>
@@ -231,7 +238,7 @@
     <div class="clearfix"></div>
   </div>
 
-  <!-- 3. ВНЕСЕНИЕ ШИН -->
+  <!-- 3. ВНЕСЕНИЕ ШИН И УЧАСТНИКОВ -->
   <div id="tabReg" style="display:none;">
     <div class="card">
       <label>Код доступа техкома:</label>
@@ -244,6 +251,7 @@
         <button id="subTabExtraBtn" onclick="showSubTab('extra')">+ Доп. шина</button>
       </div>
 
+      <!-- Внесение шины в слот -->
       <div id="subBlockTire">
         <label>Класс:</label>
         <select id="regClassSelect" onchange="onRegClassChange()"></select>
@@ -271,21 +279,30 @@
         <button class="btn-action btn-red" onclick="submitTireRegistration()">Внести в слот</button>
       </div>
 
+      <!-- ДОБАВЛЕНИЕ МАШИНЫ С ВОЗМОЖНОСТЬЮ СОЗДАТЬ НОВЫЙ КЛАСС -->
       <div id="subBlockAddCar" style="display:none;">
-        <label>Класс:</label>
-        <select id="addCarClassSelect"></select>
+        <label>Класс машины:</label>
+        <select id="addCarClassSelect" onchange="onAddCarClassSelectChange()"></select>
+
+        <!-- Поле ввода нового класса -->
+        <div id="newClassInputWrapper" style="display:none; background:#222; padding:8px; border-left:3px solid #00e676; margin-top:4px;">
+          <label style="color:#00e676;">Название нового класса:</label>
+          <input type="text" id="newClassNameInput" placeholder="Например: Спортпрототип CN или Туринг 1600">
+        </div>
+
         <label>Номер машины:</label>
         <input type="number" id="addCarNumber" placeholder="Например, 77">
-        <label>Квота шин:</label>
+        <label>Квота шин на этап:</label>
         <select id="addCarTireQuota">
-          <option value="6">6 новых шин</option>
+          <option value="6">6 новых шин (Туринг-Лайт / Супер-Продакшн)</option>
           <option value="8">8 новых шин</option>
-          <option value="12">12 шин</option>
+          <option value="12">12 шин (Туринг)</option>
           <option value="24">24 шины (GT4)</option>
         </select>
         <button class="btn-action btn-red" onclick="submitAddCar()">Добавить в этап</button>
       </div>
 
+      <!-- Удаление машины -->
       <div id="subBlockDelCar" style="display:none;">
         <label>Класс:</label>
         <select id="delCarClassSelect" onchange="updateCarSelect(this.value, 'delCarSelect')"></select>
@@ -294,6 +311,7 @@
         <button class="btn-action" style="background:#7a0c14; border-color:#E60012; color:#fff;" onclick="submitDeleteCar()">Удалить из этапа</button>
       </div>
 
+      <!-- Доп. шина -->
       <div id="subBlockExtra" style="display:none;">
         <label>Класс:</label>
         <select id="extraClassSelect" onchange="updateCarSelect(this.value, 'extraCarSelect')"></select>
@@ -306,7 +324,7 @@
     </div>
   </div>
 
-  <!-- 4. УПРАВЛЕНИЕ ЭТАПАМИ И СИНХРОНИЗАЦИЯ СКА Gallerов -->
+  <!-- 4. УПРАВЛЕНИЕ ЭТАПАМИ (GOOGLE + ЛОКАЛЬНЫЙ XLSX) -->
   <div id="tabStage" style="display:none;">
     <div class="card">
       <div style="font-weight:bold; font-size:13px; color:#E60012; border-bottom:1px solid #333; padding-bottom:4px;">
@@ -336,12 +354,12 @@
         ☁ Загрузить этап из Google Таблицы
       </button>
 
-      <!-- Метод Б: Локальный файл или чистый старт -->
-      <label style="margin-top:12px;">Метод Б: Локальный файл (.csv или .json):</label>
-      <input type="file" id="localStageFileInput" accept=".csv,.json" style="padding:4px; font-size:12px;" onchange="importLocalStageFile(event)">
+      <!-- Метод Б: Локальный файл XLSX, XLS, CSV или JSON -->
+      <label style="margin-top:12px;">Метод Б: Файл с памяти ТСД (.xlsx, .xls, .csv, .json):</label>
+      <input type="file" id="localStageFileInput" accept=".xlsx,.xls,.csv,.json" style="padding:4px; font-size:12px;" onchange="importLocalStageFile(event)">
 
       <button class="btn-action" style="margin-top:10px;" onclick="exportStageToJSON()">
-        💾 Сохранить базу этапа (.json на флешку)
+        💾 Сохранить базу этапа (.json)
       </button>
       <button class="btn-action" onclick="exportDataToCSV()">
         📄 Выгрузить лог проверок (CSV/Excel)
@@ -383,10 +401,9 @@
       'JOKER': 'Джокер'
     };
 
-    // Базовая база Грозный 2026
     var DEFAULT_STAGE_DATA = {"GT4_SCHEMA":[["S0","Новая шина 1 (перед)"],["S0","Новая шина 2 (перед)"],["S0","Новая шина 3 (зад)"],["S0","Новая шина 4 (зад)"],["S1","Б/у шина 1 (перед)"],["S1","Б/у шина 2 (перед)"],["S1","Б/у шина 3 (зад)"],["S1","Б/у шина 4 (зад)"],["S2","Новая шина 1 (перед)"],["S2","Новая шина 2 (перед)"],["S2","Новая шина 3 (зад)"],["S2","Новая шина 4 (зад)"],["S3","Новая шина 1 (перед)"],["S3","Новая шина 2 (перед)"],["S3","Новая шина 3 (зад)"],["S3","Новая шина 4 (зад)"],["S4","Новая шина 1 (перед)"],["S4","Новая шина 2 (перед)"],["S4","Новая шина 3 (зад)"],["S4","Новая шина 4 (зад)"],["JOKER","Новая шина 1 (перед)"],["JOKER","Новая шина 2 (перед)"],["JOKER","Новая шина 3 (зад)"],["JOKER","Новая шина 4 (зад)"]],"Touring Light":{"43":["6001099502","6001099472","6001090954","6001090839","6001090903","6001094934"],"11":["6001091037","6001091137","6001090859","6001091112","6001090889","6001090848"],"34":["6001090998","6001090909","6001090975","6001090822","6001090943","6001090916"],"50":["6001091066","6001090812","6001090881","6001091069","6001090895","6001090805"],"32":["6001090834","6001090850","6001090995","6001090806","6001090999","6001091288"],"24":["6001090945","6001090815","6001091291","6001099476","6001091012","6001090836"],"66":["6001090950","6001090849","6001091325","6001091100","6001093607","6001091081"],"12":["6001091315","6001091184","6001090853","6001090818","6001090831","6001090803"],"15":["6001094950","6001094822","6001094839","6001094895","6001090934","6001090897"],"10":["6001090976","6001090982","6001094823","6001090961","6001091307","6001099465"],"44":["6001081188","6001091293","6001091067","6001091098","6001091243","6001081030"],"33":["6001091048","6001093573","6001091091","6001090977","6001093577","6001091095"],"23":["6001091071","6001090804","6001091060","6001091105","6001091323","6001091002"],"99":["6001091028","6001094772","6001090873","6001091016","6001091128","6001090980"],"55":["6001091004","6001090910","6001091151","6001091297","6001091326","6001091084"],"65":["6001091043","6001091108","6001090991","6001090907","6001091045","6001081194"],"19":["6001091106","6001091317","6001091135","6001091258","6001091126","6001090856"],"51":["6001090936","6001099473","6001094970","6001090948","6001090969","6001090993"]},"Touring":{"3":["6001008987","6001008388","6001075587","6001048178","6001075597","6001046593","6001035134","6001075598","6001034873","6001034858","",""],"28":["6001047466","6001008392","6001035090","6001034874","6001048137","6001075556","6001034890","6001034856","6001034881","6001034886","",""],"14":["6001050493","6001008633","6001008510","6001075601","6001008466","6001047463","6001008483","6001008495","6001075611","6001048275","",""],"12":["6001048264","6001048308","6001048305","6001008879","6001008389","6001048251","6001008457","6001048337","6001048037","6001008980","6001034834","6001050405"],"8":["6001008939","6001008674","6001008474","6001008780","6001048370","6001008847","6001008451","6001008459","6001048309","6001048209","6001048302","6001008406"],"25":["6001048298","6001008456","6001048303","6001048295","6001048371","6001008425","6001048218","6001048299","6001050452","6001050419","6001008955","6001008988"],"4":["6001050352","6001050456","6001008445","6001008578","6001048293","6001048374","6001048261","6001048249","6001048344","6001048277","6001048211","6001048332"],"2":["6001050443","6001008971","6001048354","6001048356","6001048307","6001048215","6001048259","6001048216","6001048322","6001048294","6001008998","6001050485"],"10":["6001008812","6001008643","6001048176","6001048380","6001008433","6001008641","6001008736","6001048079","6001048306","6001048349","6001008540","6001008994"]},"Super Prod":{"16":["6001076833","6001076879","6001076870","6001077002","6001076894","6001076899"],"22":["6001019291","6001037647","6001019206","6001037587","6001019189","6001037655"],"52":["6001037532","6001032669","6001019266","6000897101","6001037629","6001037692"],"81":["6001037710","6000999289","6001037584","6001032733","6001037548","6001037592"],"67":["6001032753","6001019376","6001018514","6001019317","6001019315","6001032673"],"50":["6001037633","6001037677","6001037568","6000999296","6001037591","6001037680"]},"GT4":{"52":["6001010036","6001010045","6001010189","6001047175","6001047208","6001047150","6001047228","6001047236","6001010064","6001010035","6001010012","6001010028","6001010182","6001009984","6001010181","6001010053","6001010168","6001047135","6001047166","6001047258","6001010014","6001010011","6001009980","6001010050"],"11":["6001010032","6001047089","6001010052","6001053428","6001044042","6001042835","6001047239","6001047246","6001047153","6001047278","6001047036","6001047145","6001047115","6001053459","6001047274","6001047217","6001010177","6001010038","6001047097","6001047102","6001047276","6001010055","6001047254","6001047378"],"5":["6001009970","6001047011","6001009998","6001009969","6001047405","6001047288","6001047406","6001046981","6001010116","6001047027","6001047074","6001010044","6001009965","6001047005","6001047187","6001047162","6001009994","6001010171","6001010066","6001047048","6001009972","6001010200","6001047171","6001009978"],"18":["6001047014","6001047053","6001010074","6001010023","6001047296","6001047305","6001047319","6001009692","6001047332","6001047047","6001009975","6001047039","6001053458","6001047012","6001047342","6001047172","6001010132","6001010059","6001010104","6001009981","6001047323","6001047007","6001047376","6001047326"],"50":["6001047353","6001010060","6001045540","6001045687","6001044049","6001044037","6001036090","6001036078","6001047155","6001047064","6001045653","6001045692","6001047104","6001009985","6001045225","6001045660","6001053430","6001047034","6001045628","6001045600","6001047094","6001010102","6001045624","6001045614"],"1":["6000914946","6000915081","6000737133","6000893213","6000845622","6000915088","6000893177","6000737153","6001047315","6001047309","6001045451","6001045439","6001047164","6001047248","6001047580","6001045648","6001047285","6001047184","6001045516","6001045665","6000914994","6000845136","6000888157","6000802242"],"51":["6001046990","6001047203","6001045513","6001045544","6001047293","6001047289","6001045658","6001045616","6001047067","6001047114","6001045473","6001045436","6001026812","6001047294","6001045482","6001045662","6001047159","6001047121","6001045654","6001045449","","","",""],"12":["6001010005","6001047183","6001045635","6001045657","6001009760","6001044078","6001045478","6001045469","6001010130","60010001","6001045675","6001045487","6001010120","6001010062","6001047575","6001047737","6001010165","6001010175","6001045573","6001045612","","","",""],"63":["6001044102","6001044126","6001043969","6001043952","6001009891","6001009744","6000929756","6000938803","6001042880","6001038805","6000926168","6000916843","6001010024","6001009968","6001045633","6001045492","6001047077","6001010063","6001045611","6001045674","6001010046","6001046995","6001045676","6001045497"],"24":["6001009976","6001047355","6001045584","6001045596","6001009784","6001047411","6000938842","6000959717","6001009977","6001009967","6001045629","6001045603","6001047188","6001009966","6001045615","6001045637","6001047058","6001047329","6001045638","6001047574","6001043989","6001009702","6001036091","6001036026"]}};
 
-    var STORAGE_KEY = 'rskg_db_stage_v4';
+    var STORAGE_KEY = 'rskg_db_stage_v5';
     var localDB = null;
     var syncQueue = [];
     var autoResetTimer = null;
@@ -439,7 +456,7 @@
       try {
         var stored = window.localStorage ? localStorage.getItem(STORAGE_KEY) : null;
         if (stored) localDB = JSON.parse(stored);
-        var storedQueue = window.localStorage ? localStorage.getItem('rskg_queue_v4') : null;
+        var storedQueue = window.localStorage ? localStorage.getItem('rskg_queue_v5') : null;
         if (storedQueue) syncQueue = JSON.parse(storedQueue);
         var storedScanId = window.localStorage ? localStorage.getItem('rskg_scanner_id') : null;
         if (storedScanId) myScannerId = storedScanId;
@@ -490,11 +507,8 @@
         });
       }
 
-      // Фоновый опрос облака каждые 8 секунд для синхронизации всех 6 сканеров
       setInterval(function() {
-        if (navigator.onLine) {
-          syncWithCloud();
-        }
+        if (navigator.onLine) syncWithCloud();
       }, 8000);
 
       window.addEventListener('online', function() { updateNetStatus(); syncWithCloud(); });
@@ -512,7 +526,7 @@
       try {
         if (window.localStorage) {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(localDB));
-          localStorage.setItem('rskg_queue_v4', JSON.stringify(syncQueue));
+          localStorage.setItem('rskg_queue_v5', JSON.stringify(syncQueue));
         }
       } catch(e) {}
     }
@@ -546,10 +560,11 @@
       }
       if (classes.length === 0) return;
 
-      var ids = ['classSelect', 'listClassSelect', 'regClassSelect', 'addCarClassSelect', 'delCarClassSelect', 'extraClassSelect'];
-      for (var i = 0; i < ids.length; i++) {
-        var el = document.getElementById(ids[i]);
+      var standardIds = ['classSelect', 'listClassSelect', 'regClassSelect', 'delCarClassSelect', 'extraClassSelect'];
+      for (var i = 0; i < standardIds.length; i++) {
+        var el = document.getElementById(standardIds[i]);
         if (!el) continue;
+        var cur = el.value;
         el.innerHTML = '';
         for (var j = 0; j < classes.length; j++) {
           var opt = document.createElement('option');
@@ -557,6 +572,29 @@
           opt.text = classes[j];
           el.appendChild(opt);
         }
+        if (cur && localDB.classes[cur]) el.value = cur;
+      }
+
+      // Настройка селектора добавления машины с опцией создания класса
+      var addSel = document.getElementById('addCarClassSelect');
+      if (addSel) {
+        var addCur = addSel.value;
+        addSel.innerHTML = '';
+        for (var m = 0; m < classes.length; m++) {
+          var optA = document.createElement('option');
+          optA.value = classes[m];
+          optA.text = classes[m];
+          addSel.appendChild(optA);
+        }
+        var newOpt = document.createElement('option');
+        newOpt.value = '__NEW__';
+        newOpt.text = '+ [Создать новый класс...]';
+        addSel.appendChild(newOpt);
+
+        if (addCur && (localDB.classes[addCur] || addCur === '__NEW__')) {
+          addSel.value = addCur;
+        }
+        onAddCarClassSelectChange();
       }
 
       onClassChange();
@@ -565,17 +603,28 @@
       updateCarSelect(document.getElementById('extraClassSelect').value, 'extraCarSelect');
     }
 
+    function onAddCarClassSelectChange() {
+      var sel = document.getElementById('addCarClassSelect');
+      var wrap = document.getElementById('newClassInputWrapper');
+      if (sel && wrap) {
+        wrap.style.display = (sel.value === '__NEW__') ? 'block' : 'none';
+        if (sel.value === '__NEW__') {
+          setTimeout(function() { document.getElementById('newClassNameInput').focus(); }, 100);
+        }
+      }
+    }
+
     function onClassChange() {
       var cls = document.getElementById('classSelect').value;
       var sessEl = document.getElementById('sessionWrapper');
-      sessEl.style.display = (cls === 'GT4') ? 'block' : 'none';
+      sessEl.style.display = (cls.toUpperCase().indexOf('GT4') !== -1) ? 'block' : 'none';
       updateCarSelect(cls, 'carSelect');
     }
 
     function onRegClassChange() {
       var cls = document.getElementById('regClassSelect').value;
       var sessEl = document.getElementById('regSessionWrapper');
-      sessEl.style.display = (cls === 'GT4') ? 'block' : 'none';
+      sessEl.style.display = (cls.toUpperCase().indexOf('GT4') !== -1) ? 'block' : 'none';
       updateCarSelect(cls, 'regCarSelect');
     }
 
@@ -607,7 +656,6 @@
       bInput.focus();
     }
 
-    // СВЕРКА ШИНЫ ЛАЗЕРОМ С АВТООТПРАВКОЙ В ОЧЕРЕДЬ
     function verifyTire(barcode) {
       var cls = document.getElementById('classSelect').value;
       var car = document.getElementById('carSelect').value;
@@ -622,7 +670,7 @@
       banner.style.display = 'block';
       var cleanScan = String(barcode).trim().replace(/[^0-9]/g, '');
       var carTires = (localDB.classes[cls] && localDB.classes[cls][car]) ? localDB.classes[cls][car] : [];
-      var isGT4 = (cls === 'GT4');
+      var isGT4 = (cls.toUpperCase().indexOf('GT4') !== -1);
 
       var matchResult = findMatchingTire(cleanScan, carTires, session, isGT4);
 
@@ -640,7 +688,6 @@
           t.status = 'OK';
           saveDB();
 
-          // Добавление в очередь синхронизации бригады
           syncQueue.push({
             scannerId: myScannerId,
             className: cls,
@@ -737,11 +784,9 @@
       return m[bl][al];
     }
 
-    // ДВУХСТОРОННЯЯ СИНХРОНИЗАЦИЯ БРИГАДЫ
     function syncWithCloud() {
       if (!navigator.onLine) return;
 
-      // 1. Отправка наших накопленных сканов
       if (syncQueue.length > 0) {
         var payload = {
           action: 'batchSync',
@@ -771,7 +816,6 @@
       }
     }
 
-    // Получение свежих отметок от других сканеров бригады
     function pullRemoteUpdates() {
       if (!navigator.onLine) return;
 
@@ -791,7 +835,6 @@
       xhr.send();
     }
 
-    // Аккуратное слияние без стирания локальных данных
     function mergeCloudState(cloudClasses) {
       var changed = false;
       for (var cls in cloudClasses) {
@@ -827,7 +870,6 @@
       alert('Запрос синхронизации отправлен!');
     }
 
-    // СЕТКА МАШИН
     function renderCarsGrid() {
       var cls = document.getElementById('listClassSelect').value;
       var grid = document.getElementById('carsGrid');
@@ -942,7 +984,6 @@
       }
     }
 
-    // МЕТОД А: ЗАГРУЗКА ЭТАПА ИЗ GOOGLE ТАБЛИЦЫ
     function loadStageFromGoogleSheet() {
       var sheetId = document.getElementById('cloudSheetIdInput').value.trim();
       if (!sheetId) {
@@ -950,11 +991,11 @@
         return;
       }
       if (!navigator.onLine) {
-        alert('Нет подключения к интернету для загрузки таблицы!');
+        alert('Нет подключения к интернету!');
         return;
       }
 
-      if (!confirm('Загрузить соревнование из Google Таблицы? Текущая база на ТСД обновится.')) return;
+      if (!confirm('Загрузить соревнование из Google Таблицы? База обновится.')) return;
 
       var url = SCRIPT_URL + '?sheetId=' + encodeURIComponent(sheetId) + '&t=' + new Date().getTime();
       var xhr = new XMLHttpRequest();
@@ -976,39 +1017,125 @@
                 populateClassSelectors();
                 renderCarsGrid();
                 document.getElementById('stageTitle').innerText = localDB.stageName;
-                alert('Этап успешно загружен из Google Таблицы: ' + localDB.stageName);
+                alert('Этап успешно загружен из Google: ' + localDB.stageName);
               } else {
-                alert('Не удалось прочитать классы из таблицы. Проверьте права доступа (доступ по ссылке: Все).');
+                alert('Не удалось прочитать классы. Проверьте права доступа таблицы (Все, у кого есть ссылка).');
               }
             } catch(e) {
-              alert('Ошибка обработки ответа таблицы: ' + e.toString());
+              alert('Ошибка обработки ответа: ' + e.toString());
             }
           } else {
-            alert('Ошибка связи с Google Apps Script: ' + xhr.status);
+            alert('Ошибка сети: ' + xhr.status);
           }
         }
       };
       xhr.send();
     }
 
-    // МЕТОД Б: ИМПОРТ ИЗ ЛОКАЛЬНОГО ФАЙЛА (JSON / CSV)
+    // ИМПОРТ ИЗ ЛОКАЛЬНЫХ ФАЙЛОВ (.XLSX, .XLS, .CSV, .JSON)
     function importLocalStageFile(e) {
       var file = e.target.files[0];
       if (!file) return;
 
-      var reader = new FileReader();
-      reader.onload = function(evt) {
+      var ext = file.name.toLowerCase();
+
+      // Чтение Excel файлов .xlsx и .xls
+      if (ext.indexOf('.xlsx') !== -1 || ext.indexOf('.xls') !== -1) {
+        if (typeof XLSX === 'undefined') {
+          alert('Библиотека XLSX не найдена!\n\nДля автономного чтения .xlsx на ТСД:\n1. Положите файл xlsx.full.min.js в ту же папку на карту памяти.\nИЛИ\n2. Подключитесь к Wi-Fi на 10 сек (библиотека скачается сама).\nИЛИ\n3. Сохраните таблицу как .csv (CSV читается всегда без интернета).');
+          return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function(evt) {
+          try {
+            var data = new Uint8Array(evt.target.result);
+            var workbook = XLSX.read(data, {type: 'array'});
+            var parsedDb = {};
+
+            for (var s = 0; s < workbook.SheetNames.length; s++) {
+              var sheetName = workbook.SheetNames[s];
+              var worksheet = workbook.Sheets[sheetName];
+              var rows = XLSX.utils.sheet_to_json(worksheet, {header: 1, defval: ''});
+
+              var isGT4 = (sheetName.toUpperCase().indexOf('GT4') !== -1);
+              var declCol = isGT4 ? 3 : 2;
+              var currentCar = null;
+              var currentSession = '';
+              parsedDb[sheetName] = {};
+
+              for (var r = 0; r < rows.length; r++) {
+                var row = rows[r];
+
+                for (var c = 0; c < row.length - 1; c++) {
+                  if (String(row[c] || '').toLowerCase().indexOf('номер автомобиля') !== -1) {
+                    var rawNum = row[c + 1] !== '' ? row[c + 1] : row[c + 2];
+                    var carNum = String(rawNum || '').replace(/[^0-9]/g, '');
+                    if (carNum) {
+                      currentCar = carNum;
+                      currentSession = '';
+                      parsedDb[sheetName][currentCar] = [];
+                    } else {
+                      currentCar = null;
+                      currentSession = '';
+                    }
+                    break;
+                  }
+                }
+
+                if (currentCar) {
+                  if (isGT4) {
+                    var col0 = String(row[0] || '').trim().toUpperCase();
+                    if (col0.indexOf('S0') !== -1) currentSession = 'S0';
+                    else if (col0.indexOf('S1') !== -1 && col0.indexOf('ПРЕД') === -1 && col0.indexOf('S0') === -1) currentSession = 'S1';
+                    else if (col0.indexOf('S2') !== -1) currentSession = 'S2';
+                    else if (col0.indexOf('S3') !== -1) currentSession = 'S3';
+                    else if (col0.indexOf('S4') !== -1) currentSession = 'S4';
+                    else if (col0.indexOf('JOKER') !== -1) currentSession = 'JOKER';
+                  }
+
+                  var slotLabel = String(row[1] || '').trim();
+                  if (slotLabel.toLowerCase().indexOf('шина') !== -1) {
+                    var bVal = String(row[declCol] || '').replace(/[^0-9]/g, '');
+                    parsedDb[sheetName][currentCar].push({
+                      session: isGT4 ? currentSession : '',
+                      slot: slotLabel,
+                      barcode: bVal,
+                      scanned: '',
+                      status: ''
+                    });
+                  }
+                }
+              }
+            }
+
+            localDB = {
+              stageName: file.name.replace(/\.[^/.]+$/, ""),
+              classes: parsedDb
+            };
+            syncQueue = [];
+            saveDB();
+            populateClassSelectors();
+            renderCarsGrid();
+            document.getElementById('stageTitle').innerText = localDB.stageName;
+            alert('Этап успешно загружен из XLSX файла: ' + localDB.stageName);
+          } catch(err) {
+            alert('Ошибка разбора файла XLSX: ' + err.toString());
+          }
+        };
+        reader.readAsArrayBuffer(file);
+        return;
+      }
+
+      // Чтение текстовых файлов (.json и .csv)
+      var textReader = new FileReader();
+      textReader.onload = function(evt) {
         var content = evt.target.result;
         try {
-          if (file.name.indexOf('.json') !== -1) {
+          if (ext.indexOf('.json') !== -1) {
             var parsed = JSON.parse(content);
-            if (parsed.classes) {
-              localDB = parsed;
-            } else {
-              localDB = { stageName: file.name.replace('.json',''), classes: parsed };
-            }
+            localDB = parsed.classes ? parsed : { stageName: file.name.replace('.json',''), classes: parsed };
           } else {
-            // Разбор CSV: Класс;Номер;Сессия;Слот;Штрихкод
             localDB = parseCSVStage(content, file.name);
           }
           syncQueue = [];
@@ -1016,12 +1143,12 @@
           populateClassSelectors();
           renderCarsGrid();
           document.getElementById('stageTitle').innerText = localDB.stageName;
-          alert('Файл этапа успешно загружен: ' + localDB.stageName);
+          alert('Этап успешно загружен: ' + localDB.stageName);
         } catch(err) {
           alert('Ошибка чтения файла: ' + err.toString());
         }
       };
-      reader.readAsText(file, 'UTF-8');
+      textReader.readAsText(file, 'UTF-8');
     }
 
     function parseCSVStage(csvText, fileName) {
@@ -1067,8 +1194,8 @@
     }
 
     function createCleanStage() {
-      if (!confirm('Создать новый "Чистый этап"? База очистится, классы и слоты будут готовы к привязке шин.')) return;
-      var stageName = prompt('Введите название нового этапа:', 'Новый этап РСКГ');
+      if (!confirm('Создать новый "Чистый этап"? База очистится, классы будут готовы к добавлению участников.')) return;
+      var stageName = prompt('Введите название этапа:', 'Новый этап');
       if (!stageName) return;
 
       var cleanClasses = {
@@ -1108,7 +1235,6 @@
       document.body.removeChild(link);
     }
 
-    // АДМИН-ОПЕРАЦИИ ВНЕСЕНИЯ
     function checkPass() {
       var p = document.getElementById('regPass').value;
       if (p !== '1337') {
@@ -1149,7 +1275,7 @@
 
       for (var i = 0; i < tires.length; i++) {
         var t = tires[i];
-        if (cls === 'GT4' && session && t.session !== session) continue;
+        if (cls.toUpperCase().indexOf('GT4') !== -1 && session && t.session !== session) continue;
         if (!t.barcode) {
           t.barcode = barcode;
           slotFound = true;
@@ -1172,11 +1298,22 @@
       }, 200);
     }
 
+    // ДОБАВЛЕНИЕ МАШИНЫ С ПОДДЕРЖКОЙ СОЗДАНИЯ НОВОГО КЛАССА
     function submitAddCar() {
       if (!checkPass()) return;
-      var cls = document.getElementById('addCarClassSelect').value;
+      var clsSelect = document.getElementById('addCarClassSelect').value;
+      var cls = clsSelect;
+
+      if (clsSelect === '__NEW__') {
+        cls = document.getElementById('newClassNameInput').value.trim();
+        if (!cls) {
+          alert('Введите название нового класса!');
+          return;
+        }
+      }
+
       var car = document.getElementById('addCarNumber').value.replace(/[^0-9]/g, '');
-      var isGT4 = (cls === 'GT4');
+      var isGT4 = (cls.toUpperCase().indexOf('GT4') !== -1);
       var quota = parseInt(document.getElementById('addCarTireQuota').value, 10) || 6;
 
       if (!car) { alert('Укажите номер машины!'); return; }
@@ -1213,8 +1350,16 @@
 
       saveDB();
       populateClassSelectors();
-      alert('Машина #' + car + ' добавлена');
+
+      // Устанавливаем добавленный класс в селекторах
+      document.getElementById('classSelect').value = cls;
+      onClassChange();
+      document.getElementById('addCarClassSelect').value = cls;
+      onAddCarClassSelectChange();
+
+      alert('Машина #' + car + ' успешно добавлена в класс: ' + cls);
       document.getElementById('addCarNumber').value = '';
+      document.getElementById('newClassNameInput').value = '';
     }
 
     function submitDeleteCar() {
@@ -1242,7 +1387,7 @@
       localDB.classes[cls][car].push({
         barcode: barcode,
         slot: 'Доп. шина ' + count,
-        session: (cls === 'GT4') ? 'S0' : '',
+        session: (cls.toUpperCase().indexOf('GT4') !== -1) ? 'S0' : '',
         scanned: '',
         status: ''
       });
